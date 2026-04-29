@@ -1267,10 +1267,14 @@ body.lang-te {
     padding: 28px 20px;
   }
 
-  .couple-ritual-img img {
-    width: 110px;
-    height: 110px;
-  }
+  .hero-deities { gap: 10px; }
+  .deity-frame-outer { width: 85px; height: 85px; }
+  .deity-frame-mid { width: 68px; height: 68px; }
+  .deity-frame-inner { width: 50px; height: 50px; }
+  .deity-om { font-size: 1.5rem; }
+  .deity-sri { font-size: 1.1rem; }
+
+  .couple-ritual-divider { transform: scale(0.85); padding: 0; }
 
   /* Events */
   .events-section {
@@ -1326,9 +1330,8 @@ body.lang-te {
     padding: 26px 20px;
   }
 
-  .baraat-illustration img {
-    max-width: 320px;
-  }
+  .procession-banner { padding: 14px; gap: 8px; flex-direction: column; }
+  .procession-text { font-size: 0.9rem; }
 
   .compliments-box {
     padding: 20px 18px;
@@ -1357,14 +1360,13 @@ body.lang-te {
 }
 
 @media (max-width: 420px) {
-  .deity-img {
-    width: 56px;
-    height: 56px;
-  }
-
-  .hero-deities {
-    gap: 6px;
-  }
+  .hero-deities { gap: 8px; }
+  .deity-frame-outer { width: 68px; height: 68px; }
+  .deity-frame-mid { width: 54px; height: 54px; }
+  .deity-frame-inner { width: 38px; height: 38px; }
+  .deity-om { font-size: 1.2rem; }
+  .deity-sri { font-size: 0.85rem; }
+  .deity-name { font-size: 0.6rem; }
 
   .count-box {
     min-width: 54px;
@@ -1379,10 +1381,7 @@ body.lang-te {
     padding: 22px 14px;
   }
 
-  .couple-ritual-img img {
-    width: 80px;
-    height: 80px;
-  }
+  .couple-ritual-divider { transform: scale(0.7); margin: -5px 0; }
 
   .event-card {
     padding: 20px 14px;
