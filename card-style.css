@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Noto+Serif:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --gold: #C9A84C;
+  --gold-light: #E8D08D;
+  --ivory: #FDFBF7;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: 'Cormorant Garamond', serif;
+  padding: 20px;
+}
+
+/* === CARD CONTAINER === */
+.card-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  /* Standard portrait aspect ratio */
+  aspect-ratio: 3 / 4;
+  background-image: url('images/dark_floral_bg.png');
+  background-size: cover;
+  background-position: center;
+  border-radius: 12px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+/* Internal gold border */
+.card-inner-border {
+  position: absolute;
+  inset: 15px;
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.card-inner-border::before, .card-inner-border::after {
+  content: '✦';
+  position: absolute;
+  color: var(--gold);
+  font-size: 0.8rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.card-inner-border::before { top: -8px; }
+.card-inner-border::after { bottom: -8px; }
+
+/* === TYPOGRAPHY === */
+.title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: var(--gold-light);
+  letter-spacing: 2px;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.invite-text {
+  color: var(--ivory);
+  font-size: 1.1rem;
+  font-style: italic;
+  max-width: 80%;
+  line-height: 1.5;
+  margin-bottom: 30px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.names {
+  font-family: 'Great Vibes', cursive;
+  font-size: 4rem;
+  color: var(--gold-light);
+  line-height: 1.1;
+  margin-bottom: 30px;
+  text-shadow: 0 4px 8px rgba(0,0,0,0.9);
+}
+
+.names span {
+  display: block;
+}
+
+.names .and {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.5rem;
+  font-style: italic;
+  color: var(--gold);
+  margin: 5px 0;
+}
+
+/* === DATE & TIME BLOCK === */
+.date-block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.date-divider {
+  width: 1px;
+  height: 30px;
+  background-color: var(--gold);
+}
+
+.date-day, .date-month {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  color: var(--gold);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.date-number {
+  font-family: 'Noto Serif', serif;
+  font-size: 2.5rem;
+  color: var(--gold-light);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.time {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  color: var(--ivory);
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+}
+
+/* === VENUE === */
+.venue {
+  color: var(--gold);
+  font-size: 1rem;
+  letter-spacing: 1px;
+  max-width: 85%;
+  line-height: 1.5;
+}
+
+.venue-icon {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+/* === EXPORT BUTTON === */
+.export-container {
+  position: fixed;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.btn-export {
+  background: linear-gradient(135deg, #C9A84C, #A6842D);
+  color: #111;
+  border: none;
+  padding: 14px 28px;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(201, 168, 76, 0.4);
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-export:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(201, 168, 76, 0.6);
+}
+
+/* Responsive adjustments */
+@media (max-width: 500px) {
+  .card-wrapper {
+    border-radius: 0;
+    aspect-ratio: auto;
+    min-height: 100vh;
+  }
+  .export-container {
+    bottom: 20px;
+  }
+}

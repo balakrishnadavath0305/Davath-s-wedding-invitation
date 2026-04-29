@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Madhu & Sravanthi | Wedding Invitation Card</title>
+  <link rel="stylesheet" href="card-style.css">
+  <!-- html2canvas library for exporting the card as an image -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+  <!-- Card Container to be captured -->
+  <div class="card-wrapper" id="inviteCard">
+    <div class="card-inner-border"></div>
+    
+    <h1 class="title">Wedding Invitation</h1>
+    
+    <p class="invite-text">
+      We solicit your gracious presence with family & friends on the auspicious occasion of the marriage of my brother
+    </p>
+
+    <div class="names">
+      <span>Madhu</span>
+      <div class="and">&</div>
+      <span>Sravanthi</span>
+    </div>
+
+    <div class="date-block">
+      <span class="date-day">Thursday</span>
+      <div class="date-divider"></div>
+      <span class="date-number">14</span>
+      <div class="date-divider"></div>
+      <span class="date-month">May 2026</span>
+    </div>
+
+    <p class="time">At 11:35 AM</p>
+
+    <div class="venue">
+      <div class="venue-icon">📍</div>
+      <p>A.K. Royal Function Hall, Aliyabad,<br>Shamirpet</p>
+    </div>
+  </div>
+
+  <!-- Export Button -->
+  <div class="export-container">
+    <button class="btn-export" onclick="downloadCard()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+        <polyline points="7 10 12 15 17 10"></polyline>
+        <line x1="12" y1="15" x2="12" y2="3"></line>
+      </svg>
+      Download Card
+    </button>
+  </div>
+
+  <script>
+    function downloadCard() {
+      const cardElement = document.getElementById('inviteCard');
+      const btn = document.querySelector('.btn-export');
+      
+      // Visual feedback
+      const originalText = btn.innerHTML;
+      btn.innerHTML = "Generating...";
+      btn.style.opacity = "0.8";
+
+      // Configure html2canvas for high quality export
+      html2canvas(cardElement, {
+        scale: 3, // High resolution
+        useCORS: true, // Allow cross-origin images (if any)
+        backgroundColor: "#111" // Match background
+      }).then(canvas => {
+        // Create an image and trigger download
+        const image = canvas.toDataURL("image/jpeg", 0.95);
+        const link = document.createElement('a');
+        link.href = image;
+        link.download = 'Madhu-Sravanthi-Invitation.jpg';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Restore button state
+        btn.innerHTML = originalText;
+        btn.style.opacity = "1";
+      }).catch(err => {
+        console.error("Error generating image: ", err);
+        alert("Sorry, there was an issue generating the card. Please try again.");
+        btn.innerHTML = originalText;
+        btn.style.opacity = "1";
+      });
+    }
+  </script>
+</body>
+</html>
