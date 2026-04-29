@@ -1,0 +1,1390 @@
+/* ===== RESET & VARIABLES ===== */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --maroon: #7B0D1E;
+  --deep-maroon: #4A0010;
+  --gold: #C9A84C;
+  --gold-light: #E8C76D;
+  --gold-dark: #9B7B2E;
+  --ivory: #FFF8E7;
+  --cream: #F5E6C8;
+  --dark-bg: #130508;
+  --card-bg: rgba(74, 0, 16, 0.5);
+  --text-light: #FFF0D0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Lato', sans-serif;
+  background: var(--dark-bg);
+  color: var(--ivory);
+  overflow-x: hidden;
+}
+
+/* ===== TELUGU FONT RULES ===== */
+/* Single consistent font for ALL Telugu text — Noto Serif Telugu */
+.te {
+  font-family: 'Noto Serif Telugu', serif;
+  line-height: 2.0;
+  letter-spacing: 0;
+  font-style: normal;
+}
+
+/* Body/detail text */
+.person-detail.te,
+.intro-text.te,
+.compliments-box .te,
+.host-sub.te,
+.event-sub.te,
+.event-detail .te,
+.section-sub.te,
+.footer-venue.te,
+.footer-copy.te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-weight: 400;
+  line-height: 2.2;
+  letter-spacing: 0;
+}
+
+/* Titles / headings */
+.section-title.te,
+.event-name.te,
+.invite-label.te,
+.blessing-text.te,
+.hero-venue.te,
+.footer-date.te,
+.count-label.te,
+.host-name.te,
+.person-prefix.te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-weight: 600;
+  line-height: 1.8;
+  letter-spacing: 0;
+  font-style: normal;
+}
+
+/* Hero couple names — large display */
+.groom-name.te,
+.bride-name.te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-weight: 700;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  line-height: 1.15;
+  letter-spacing: 0;
+  text-shadow: 0 0 40px rgba(201, 168, 76, 0.55), 2px 3px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Person card names */
+.person-name.te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.3;
+  letter-spacing: 0;
+}
+
+/* Section titles */
+.section-title.te {
+  font-style: normal;
+  font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+}
+
+/* వివాహం spacing fix — prevent merging with bride name */
+.bride-name-wrap {
+  margin-top: 6px;
+  display: block;
+}
+
+/* amp-text వివాహం */
+.amp-text .te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-size: clamp(1rem, 3vw, 1.8rem);
+  font-style: normal;
+  display: block;
+  margin-bottom: 4px;
+}
+
+/* Body in Telugu mode */
+body.lang-te {
+  line-height: 2;
+}
+
+
+
+/* ===== CANVAS ===== */
+#petals {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ===== LANG TOGGLE ===== */
+.lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 999;
+  display: flex;
+  background: rgba(74, 0, 16, 0.92);
+  border: 1px solid var(--gold);
+  border-radius: 30px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(201, 168, 76, 0.3);
+}
+
+.lang-btn {
+  padding: 8px 18px;
+  border: none;
+  background: transparent;
+  color: var(--gold);
+  cursor: pointer;
+  font-family: 'Lato', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  transition: all 0.3s;
+}
+
+.lang-btn.active {
+  background: var(--gold);
+  color: var(--deep-maroon);
+}
+
+
+
+/* ===== SHARED COMPONENTS ===== */
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 16px auto;
+}
+
+.ornament-divider span:first-child,
+.ornament-divider span:last-child {
+  display: block;
+  height: 1px;
+  width: 70px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.diamond {
+  width: 9px;
+  height: 9px;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.section-header {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 4vw, 2.5rem);
+  color: var(--gold-light);
+  font-style: italic;
+  margin: 10px 0;
+}
+
+.section-sub {
+  color: var(--cream);
+  font-size: 1rem;
+  margin-top: 6px;
+  letter-spacing: 0.5px;
+}
+
+/* Reveal animation */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== HERO ===== */
+.hero {
+  min-height: 100vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 30% 60%, rgba(123, 13, 30, 0.55) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 20%, rgba(201, 168, 76, 0.12) 0%, transparent 55%),
+    linear-gradient(160deg, #1C0208 0%, #2C0A10 50%, #1A0408 100%);
+  padding: 60px 20px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A84C' fill-opacity='0.04'%3E%3Cpath d='M40 0 L42 38 L80 40 L42 42 L40 80 L38 42 L0 40 L38 38 Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/* === DEITY MANDALA FRAMES === */
+.hero-deities {
+  display: flex; align-items: flex-start; justify-content: center;
+  gap: 20px; width: 100%; max-width: 900px;
+  margin-bottom: 16px; position: relative; z-index: 2;
+}
+.deity-frame {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  flex-shrink: 0;
+}
+.deity-frame-outer {
+  width: 110px; height: 110px; border-radius: 50%;
+  border: 1px dashed rgba(201,168,76,0.7);
+  display: flex; align-items: center; justify-content: center;
+  animation: slowSpin 18s linear infinite;
+  box-shadow: 0 0 22px rgba(201,168,76,0.25);
+}
+.deity-frame-outer::before, .deity-frame-outer::after {
+  content: '✦';
+  position: absolute;
+  color: var(--gold); font-size: 0.55rem;
+  opacity: 0.8;
+}
+.deity-frame-outer::before { top: 3px; left: 50%; transform: translateX(-50%); }
+.deity-frame-outer::after  { bottom: 3px; left: 50%; transform: translateX(-50%); }
+.deity-frame-mid {
+  width: 90px; height: 90px; border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  animation: slowSpin 18s linear infinite reverse;
+  position: relative;
+}
+.deity-frame-mid::before, .deity-frame-mid::after {
+  content: '◈';
+  position: absolute;
+  color: rgba(201,168,76,0.5); font-size: 0.5rem;
+}
+.deity-frame-mid::before { left: 3px; top: 50%; transform: translateY(-50%); }
+.deity-frame-mid::after  { right: 3px; top: 50%; transform: translateY(-50%); }
+.deity-frame-inner {
+  width: 68px; height: 68px; border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.4);
+  display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(circle, rgba(201,168,76,0.18) 0%, rgba(74,0,16,0.55) 100%);
+  box-shadow: inset 0 0 16px rgba(201,168,76,0.2), 0 0 14px rgba(201,168,76,0.2);
+  animation: none;
+}
+.deity-om {
+  font-family: 'Noto Serif', serif;
+  font-size: 2rem; font-weight: 700;
+  color: var(--gold-light);
+  text-shadow: 0 0 16px rgba(201,168,76,0.9), 0 0 30px rgba(201,168,76,0.4);
+  line-height: 1; user-select: none;
+}
+.deity-sri {
+  font-family: 'Noto Serif Telugu', serif;
+  font-size: 1.4rem;
+}
+.deity-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.68rem; letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold); opacity: 0.75;
+  margin: 0;
+}
+@keyframes slowSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.hero-center-header { flex: 1; text-align: center; }
+
+/* === COUPLE RITUAL VERTICAL DIVIDER === */
+.couple-ritual-divider {
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 8px; flex-shrink: 0; padding: 0 10px;
+}
+.ritual-line-top, .ritual-line-mid, .ritual-line-bottom {
+  width: 1px; background: linear-gradient(180deg, transparent, var(--gold), transparent);
+}
+.ritual-line-top  { height: 35px; }
+.ritual-line-mid  { height: 25px; }
+.ritual-line-bottom { height: 35px; }
+.ritual-lotus {
+  font-size: 1.2rem; color: var(--gold);
+  text-shadow: 0 0 8px rgba(201,168,76,0.5);
+  line-height: 1;
+}
+.ritual-heart {
+  font-size: 1.5rem; color: var(--gold-light);
+  text-shadow: 0 0 10px rgba(201,168,76,0.6);
+  line-height: 1;
+  animation: heartBeat 1.8s infinite;
+}
+
+/* === PROCESSION ORNAMENTAL BANNER === */
+.procession-ornament {
+  max-width: 600px; margin: 40px auto 0;
+  text-align: center;
+}
+.procession-banner {
+  display: flex; align-items: center; gap: 20px;
+  padding: 20px 30px;
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 6px;
+  background: linear-gradient(135deg, rgba(74,0,16,0.3), rgba(20,4,8,0.4));
+}
+.procession-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.procession-center {
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.procession-symbol {
+  color: var(--gold); font-size: 1rem;
+  text-shadow: 0 0 8px rgba(201,168,76,0.5);
+}
+.procession-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic; color: var(--cream);
+  font-size: 1rem; letter-spacing: 2px;
+  margin: 0;
+}
+.procession-text.te {
+  font-family: 'Noto Serif Telugu', serif;
+  font-style: normal; letter-spacing: 0;
+}
+
+/* ===== BORDERS ===== */
+.hero-top-border,
+.hero-bottom-border {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--deep-maroon), var(--gold), var(--maroon), var(--gold-light), var(--gold), var(--maroon), var(--deep-maroon));
+}
+
+.hero-top-border {
+  top: 0;
+}
+
+.hero-bottom-border {
+  bottom: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+}
+
+.blessing-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--gold);
+  letter-spacing: 3px;
+  margin-bottom: 18px;
+  animation: fadeInDown 1s ease forwards 0.4s;
+  opacity: 0;
+}
+
+.ganesh-icon {
+  font-size: 3rem;
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease forwards 0.6s;
+  opacity: 0;
+}
+
+.invite-label {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 3vw, 1.6rem);
+  color: var(--cream);
+  letter-spacing: 2px;
+  margin-bottom: 30px;
+  animation: fadeInDown 1s ease forwards 0.8s;
+  opacity: 0;
+}
+
+.couple-names {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  line-height: 1;
+  animation: fadeIn 1.2s ease forwards 1s;
+  opacity: 0;
+}
+
+.groom-name,
+.bride-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(4rem, 12vw, 9rem);
+  color: var(--text-light);
+  text-shadow: 0 0 40px rgba(201, 168, 76, 0.55), 2px 3px 8px rgba(0, 0, 0, 0.6);
+  line-height: 1;
+}
+
+.amp-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 4vw, 2.2rem);
+  color: var(--gold);
+  margin: 6px 0;
+}
+
+.hero-date {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(0.9rem, 2.5vw, 1.25rem);
+  color: var(--cream);
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  margin-top: 24px;
+  animation: fadeInUp 1s ease forwards 1.6s;
+  opacity: 0;
+}
+
+.hero-venue {
+  font-size: 0.95rem;
+  color: var(--gold);
+  letter-spacing: 1.5px;
+  margin-top: 8px;
+  animation: fadeInUp 1s ease forwards 1.8s;
+  opacity: 0;
+}
+
+.hero-cta {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 12px 36px;
+  border: 1px solid var(--gold);
+  border-radius: 3px;
+  color: var(--gold);
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: all 0.35s;
+  animation: fadeInUp 1s ease forwards 2s;
+  opacity: 0;
+}
+
+.hero-cta:hover {
+  background: var(--gold);
+  color: var(--deep-maroon);
+}
+
+/* ===== COUPLE SECTION ===== */
+.couple-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #1A0208 0%, #23060F 100%);
+  position: relative;
+}
+
+.couple-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.06) 0%, transparent 70%);
+}
+
+.intro-text {
+  text-align: center;
+  max-width: 680px;
+  margin: 20px auto 50px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.8;
+  letter-spacing: 0.5px;
+}
+
+.couple-cards {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.person-card {
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.7), rgba(30, 5, 10, 0.85));
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 8px;
+  padding: 40px 30px;
+  text-align: center;
+  flex: 1;
+  min-width: 240px;
+  max-width: 320px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.person-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+}
+
+.person-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(201, 168, 76, 0.2);
+}
+
+.person-emoji {
+  font-size: 3rem;
+  margin-bottom: 14px;
+}
+
+.person-prefix {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
+  font-size: 1.1rem;
+  margin-bottom: 4px;
+}
+
+.person-name {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2.5rem, 6vw, 3.5rem);
+  color: var(--text-light);
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+}
+
+.person-detail {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  color: var(--cream);
+  line-height: 1.7;
+  margin-top: 14px;
+}
+
+.person-detail strong {
+  color: var(--gold-light);
+}
+
+.hearts-middle {
+  font-size: 2.5rem;
+  animation: heartBeat 1.5s infinite;
+}
+
+@keyframes heartBeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+/* ===== EVENTS SECTION ===== */
+.events-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #23060F 0%, #130508 100%);
+  position: relative;
+}
+
+.events-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23C9A84C' fill-opacity='0.03'%3E%3Cpath d='M30 0 L32 28 L60 30 L32 32 L30 60 L28 32 L0 30 L28 28 Z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.events-grid {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1100px;
+  margin: 40px auto 0;
+  position: relative;
+  z-index: 1;
+}
+
+.event-card {
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.6), rgba(20, 4, 8, 0.8));
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 8px;
+  padding: 36px 28px;
+  text-align: center;
+  flex: 1;
+  min-width: 240px;
+  max-width: 320px;
+  transition: transform 0.4s, box-shadow 0.4s;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 45px rgba(201, 168, 76, 0.18);
+}
+
+.event-icon-symbol {
+  font-size: 2.6rem;
+  color: var(--gold);
+  margin-bottom: 16px;
+  line-height: 1;
+  text-shadow: 0 0 12px rgba(201, 168, 76, 0.5);
+}
+
+.event-dot {
+  color: var(--gold);
+  font-size: 0.7rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.event-name {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  font-size: 1.5rem;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.event-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+.event-detail {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--ivory);
+  font-size: 0.92rem;
+  margin-top: 10px;
+  justify-content: center;
+}
+
+.event-icon-sm {
+  font-size: 1rem;
+}
+
+/* ===== COUNTDOWN ===== */
+.countdown-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #2C0A10, #1A0208, #2C0A10);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.countdown-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+}
+
+.countdown-grid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.count-box {
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.7), rgba(20, 4, 8, 0.9));
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 8px;
+  padding: 28px 24px;
+  min-width: 100px;
+  text-align: center;
+}
+
+.count-num {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.6);
+  line-height: 1;
+}
+
+.count-label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--cream);
+  margin-top: 8px;
+}
+
+.count-sep {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  color: var(--gold);
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+/* ===== MAP SECTION ===== */
+.map-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #130508 0%, #23060F 100%);
+}
+
+.map-wrapper {
+  max-width: 900px;
+  margin: 40px auto 0;
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+}
+
+.map-wrapper iframe {
+  display: block;
+}
+
+.directions-btn {
+  display: block;
+  text-align: center;
+  padding: 16px;
+  background: linear-gradient(135deg, var(--maroon), var(--deep-maroon));
+  color: var(--gold-light);
+  text-decoration: none;
+  font-family: 'Lato', sans-serif;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-size: 0.9rem;
+  transition: background 0.3s;
+}
+
+.directions-btn:hover {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--deep-maroon);
+}
+
+/* ===== GALLERY ===== */
+.gallery-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #23060F 0%, #130508 100%);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 220px);
+  gap: 12px;
+  max-width: 950px;
+  margin: 40px auto 0;
+}
+
+.gallery-item {
+  border-radius: 6px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  cursor: pointer;
+  transition: transform 0.4s;
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.g1 {
+  background: radial-gradient(135deg at 30% 40%, #7B0D1E 0%, #2C0A10 100%);
+}
+
+.g2 {
+  background: radial-gradient(135deg at 60% 30%, #9B1A30 0%, #1C0408 100%);
+}
+
+.g3 {
+  background: radial-gradient(135deg at 50% 70%, #6B0818 0%, #230610 100%);
+}
+
+.g4 {
+  background: radial-gradient(135deg at 20% 60%, #8B1020 0%, #1A0208 100%);
+}
+
+.g5 {
+  background: radial-gradient(135deg at 80% 40%, #7B0D1E 0%, #2C0A10 100%);
+}
+
+.g6 {
+  background: radial-gradient(135deg at 50% 50%, #9B1A30 0%, #130508 100%);
+}
+
+.g1::after,
+.g2::after,
+.g3::after,
+.g4::after,
+.g5::after,
+.g6::after {
+  content: '🌸';
+  position: absolute;
+  font-size: 5rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0.18;
+}
+
+.g2::after {
+  content: '💒';
+}
+
+.g3::after {
+  content: '🪔';
+}
+
+.g4::after {
+  content: '🌺';
+}
+
+.g5::after {
+  content: '👨‍👩‍👧‍👦';
+}
+
+.g6::after {
+  content: '♾️';
+}
+
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(74, 0, 16, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 20px;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.gallery-overlay p {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold-light);
+  font-size: 1.2rem;
+  letter-spacing: 2px;
+}
+
+/* ===== RSVP ===== */
+.rsvp-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #130508 0%, #2C0A10 100%);
+}
+
+.rsvp-form {
+  max-width: 580px;
+  margin: 40px auto 0;
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.55), rgba(20, 4, 8, 0.75));
+  border: 1px solid rgba(201, 168, 76, 0.3);
+  border-radius: 10px;
+  padding: 40px 36px;
+  backdrop-filter: blur(8px);
+}
+
+.form-group {
+  margin-bottom: 22px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 8px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  background: rgba(255, 248, 231, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.35);
+  border-radius: 4px;
+  color: var(--ivory);
+  font-family: 'Lato', sans-serif;
+  font-size: 0.95rem;
+  transition: border-color 0.3s;
+  outline: none;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-group select option {
+  background: #2C0A10;
+  color: var(--ivory);
+}
+
+.radio-group {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.radio-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  color: var(--cream);
+}
+
+.radio-opt input {
+  width: auto;
+  accent-color: var(--gold);
+}
+
+.rsvp-submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(135deg, var(--maroon), var(--deep-maroon));
+  border: 1px solid var(--gold);
+  border-radius: 4px;
+  color: var(--gold-light);
+  font-family: 'Lato', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.35s;
+  text-transform: uppercase;
+  margin-top: 6px;
+}
+
+.rsvp-submit-btn:hover {
+  background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+  color: var(--deep-maroon);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(201, 168, 76, 0.3);
+}
+
+.rsvp-success {
+  margin-top: 20px;
+  padding: 18px;
+  background: rgba(201, 168, 76, 0.12);
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 6px;
+  text-align: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1.1rem;
+  color: var(--gold-light);
+  line-height: 1.7;
+}
+
+/* ===== BLESSINGS ===== */
+.blessings-section {
+  padding: 80px 20px;
+  background: linear-gradient(180deg, #2C0A10 0%, #130508 100%);
+  text-align: center;
+}
+
+.hosts-box {
+  max-width: 420px;
+  margin: 30px auto;
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.6), rgba(20, 4, 8, 0.8));
+  border: 1px solid rgba(201, 168, 76, 0.4);
+  border-radius: 8px;
+  padding: 36px 30px;
+  position: relative;
+}
+
+.hosts-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+}
+
+.host-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.2rem, 3vw, 1.7rem);
+  color: var(--gold-light);
+  margin-bottom: 6px;
+}
+
+.host-sub {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: 0.95rem;
+}
+
+.host-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: 18px 0;
+}
+
+.compliments-box {
+  max-width: 700px;
+  margin: 20px auto;
+  background: linear-gradient(145deg, rgba(74, 0, 16, 0.4), rgba(20, 4, 8, 0.6));
+  border: 1px solid rgba(201, 168, 76, 0.25);
+  border-radius: 8px;
+  padding: 28px 32px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem;
+  color: var(--cream);
+  line-height: 2;
+  font-style: italic;
+}
+
+/* ===== FOOTER ===== */
+.site-footer {
+  padding: 50px 20px 30px;
+  background: #0A0204;
+  text-align: center;
+  border-top: 1px solid rgba(201, 168, 76, 0.2);
+}
+
+.footer-names {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  color: var(--gold-light);
+  text-shadow: 0 0 20px rgba(201, 168, 76, 0.4);
+  margin: 12px 0;
+}
+
+.footer-date {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: var(--cream);
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.footer-venue {
+  color: rgba(255, 240, 208, 0.7);
+  font-size: 0.9rem;
+  margin-top: 6px;
+}
+
+.footer-contact {
+  color: var(--gold);
+  font-size: 0.95rem;
+  margin-top: 12px;
+}
+
+.footer-copy {
+  color: rgba(255, 248, 231, 0.4);
+  font-size: 0.78rem;
+  margin-top: 24px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* ===== RESPONSIVE — MOBILE FIRST ===== */
+@media (max-width: 900px) {
+  .events-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .event-card {
+    min-width: 280px;
+    max-width: 480px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+
+  /* Lang toggle — top right, smaller */
+  .lang-toggle {
+    top: 12px;
+    right: 12px;
+  }
+
+  .lang-btn {
+    padding: 6px 13px;
+    font-size: 11px;
+  }
+
+  /* Hero */
+  .hero {
+    padding: 50px 16px 40px;
+  }
+
+  .hero-deities {
+    gap: 10px;
+    margin-bottom: 6px;
+  }
+
+  .deity-img {
+    width: 72px;
+    height: 72px;
+  }
+
+  .blessing-text {
+    font-size: 0.78rem;
+    letter-spacing: 1.5px;
+  }
+
+  .invite-label {
+    font-size: 0.9rem;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+  }
+
+  .groom-name,
+  .bride-name {
+    font-size: clamp(3rem, 15vw, 5rem);
+  }
+
+  .groom-name.te,
+  .bride-name.te {
+    font-size: clamp(2.5rem, 12vw, 4rem);
+  }
+
+  .amp-text {
+    font-size: clamp(1rem, 5vw, 1.5rem);
+  }
+
+  .hero-date {
+    font-size: 0.8rem;
+    letter-spacing: 2px;
+  }
+
+  .hero-venue {
+    font-size: 0.8rem;
+  }
+
+  .hero-cta {
+    padding: 10px 26px;
+    font-size: 0.75rem;
+  }
+
+  /* Couple section */
+  .couple-section {
+    padding: 50px 16px;
+  }
+
+  .intro-text {
+    font-size: 0.95rem;
+    margin-bottom: 30px;
+  }
+
+  .couple-cards {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .person-card {
+    min-width: unset;
+    width: 100%;
+    max-width: 340px;
+    padding: 28px 20px;
+  }
+
+  .couple-ritual-img img {
+    width: 110px;
+    height: 110px;
+  }
+
+  /* Events */
+  .events-section {
+    padding: 50px 16px;
+  }
+
+  .events-grid {
+    gap: 16px;
+  }
+
+  .event-card {
+    padding: 26px 20px;
+  }
+
+  /* Countdown */
+  .countdown-section {
+    padding: 50px 16px;
+  }
+
+  .count-box {
+    min-width: 64px;
+    padding: 16px 10px;
+  }
+
+  .count-num {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  .count-sep {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+    margin-bottom: 14px;
+  }
+
+  .countdown-grid {
+    gap: 5px;
+  }
+
+  /* Map */
+  .map-section {
+    padding: 50px 16px;
+  }
+
+  .map-wrapper iframe {
+    height: 280px;
+  }
+
+  /* Blessings */
+  .blessings-section {
+    padding: 50px 16px;
+  }
+
+  .hosts-box {
+    padding: 26px 20px;
+  }
+
+  .baraat-illustration img {
+    max-width: 320px;
+  }
+
+  .compliments-box {
+    padding: 20px 18px;
+    font-size: 0.92rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    padding: 36px 16px 24px;
+  }
+
+  .footer-names {
+    font-size: clamp(1.6rem, 10vw, 2.5rem);
+  }
+
+  /* Section headers */
+  .section-title {
+    font-size: clamp(1.3rem, 6vw, 1.9rem);
+  }
+
+  .ornament-divider .line,
+  .ornament-divider span:first-child,
+  .ornament-divider span:last-child {
+    width: 45px;
+  }
+}
+
+@media (max-width: 420px) {
+  .deity-img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .hero-deities {
+    gap: 6px;
+  }
+
+  .count-box {
+    min-width: 54px;
+    padding: 12px 8px;
+  }
+
+  .count-num {
+    font-size: 1.8rem;
+  }
+
+  .person-card {
+    padding: 22px 14px;
+  }
+
+  .couple-ritual-img img {
+    width: 80px;
+    height: 80px;
+  }
+
+  .event-card {
+    padding: 20px 14px;
+  }
+}
